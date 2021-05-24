@@ -193,13 +193,13 @@ def result(request):
             "fifomdstring": markdown2.markdown(fifofinalstr), #markdown for html
             "fifofault": fifofault,
             "fifohit": fifohit,
-            "fiforatio": fiforatio,
+            "fiforatio": round(fiforatio,2),
             "length": len(sequenceString.split()),
             "lrufinalList": lrufinalList,
             "lrufinalstr": lrufinalstr,
             "lrumdstring": markdown2.markdown(lrufinalstr), #markdown for html
             "lrufault": lrufault,
             "lruhit": lruhit,
-            "lruratio": lruratio,
+            "lruratio": round(lruratio,2),
         })
     return HttpResponse("resultpage")
