@@ -9,14 +9,15 @@ The final project of this course is to choose a topic that we learned in class a
 ## Installing the Project
 This project is created using Django web application.
 To install and run this project, you would need to install the following:
-<p>
+<br>
 <code>Django</code>
+<br>
 <code>markdown2</code>
+<br>
 You can install both using <code>pip</coode>
-</p>
+
 
 ## Running the Project
 To run the project, simply open the directory and type the following command in the terminal
-<p>
+<br>
 <code>python manage.py runserver</code>
-</p>
