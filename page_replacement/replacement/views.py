@@ -52,7 +52,7 @@ def fifo(sequence, frameAmt):
                 frames.append(s)
             temp = frames[:] #copying the list by value
             temp[replaceIndex] = 'red'+temp[replaceIndex] #adding "red" to the new value that is replaced
-            print(temp)
+            #print(temp)
             replaceIndex = (replaceIndex + 1) % frameAmt
             
         
@@ -183,7 +183,7 @@ def result(request):
         for s in finalList:
             print(s)
         """
-        print(fifofinalList)
+        #print(fifofinalList)
         return render(request, "replacement/result.html",{
             "form": EntryForm(),
             "sequence": sequenceString.split(),
