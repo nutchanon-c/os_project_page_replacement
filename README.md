@@ -14,7 +14,7 @@ To install and run this project, you would need to install the following:<br>
 
 <code>markdown2</code><br>
 
-You can install both using <code>pip</coode>
+You can install both using <code>pip install django</code> and <code>pip install markdown2</code>
 
 
 ## Running the Project
