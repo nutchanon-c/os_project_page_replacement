@@ -1,4 +1,5 @@
-from typing import Sequence
+import re
+from typing import Sequence, final
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import util
@@ -9,16 +10,38 @@ import markdown2
 import secrets
 from django.utils.safestring import mark_safe
 
+global fifofinalList, fifofinalstr, fifofault, fifohit, fiforatio
+global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
+
+
+
+def transpose(l1, num):
+    for i in l1:
+        while(len(i) < num):
+            i.append("-")      
+
+
+
+    l2 = list(zip(*l1))
+    #print(l1)
+    #print(l2)
+    return l2
+
 
 def fifo(sequence, frameAmt):
+    global fifofinalList, fifofinalstr, fifofault, fifohit, fiforatio
+    fifoallList = []
     sequenceList = sequence
     frames = []
     hit = 0
     miss = 0
     replaceIndex = 0
+    temp = []
     for s in sequenceList:     
         if s in frames:
             hit += 1
+            if 'red' in temp[replaceIndex - 1]:
+                temp[replaceIndex - 1] = temp[replaceIndex - 1][3:]
         else:
             miss += 1
             if len(frames) == frameAmt:
@@ -26,31 +49,92 @@ def fifo(sequence, frameAmt):
                 
             else:
                 frames.append(s)
+            temp = frames[:]
+            temp[replaceIndex] = 'red'+temp[replaceIndex]
+            print(temp)
             replaceIndex = (replaceIndex + 1) % frameAmt
+            
+        
+        fifoallList.append(temp[:])
+
+    fifofinalList = transpose(fifoallList, frameAmt)
+    print(fifofinalList)
+
+
+    fifofinalstr = ''
+    
+    for lists in fifofinalList:
+        fifofinalstr += '<tr>'
+        for attr in lists:
+            if 'red' in attr:
+                fifofinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+            else:
+                fifofinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+        fifofinalstr+='</tr>\n'
+    fifofault = miss
+    fifohit = hit
+    fiforatio = 100.0*hit/(len(sequenceList))
+    
+    
+        
                 
-    print(f"---FIFO---\nHit: {hit}, Miss: {miss}")
+    #print(f"---FIFO---\nHit: {hit}, Miss: {miss}")
 
 
 def lru(sequence, frameAmt):
+    global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
     sequenceList = sequence
     frames = []
+    lruallList = []
     hit = 0
     miss = 0
+    temp = []
+
     for s in sequenceList:
         if s not in frames:
             miss += 1
+            temp1 = frames[:]
             if len(frames) == frameAmt:
                 frames.remove(frames[0])
                 frames.append(s)
+                temp = frames[:]
+                temp[-1] = 'red'+temp[-1]
+                #temp[0], temp[-1] = temp[-1], temp[0]
+
             else:
                 frames.append(s)
+                temp = frames[:]
+                temp[-1] = 'red'+temp[-1]
+            
+            
+            
         
         else:
             hit += 1
             frames.remove(s)
-            frames.append(s)    
+            frames.append(s)
+            temp = frames[:]
+            #temp[0], temp[-1] = temp[-1], temp[0]
+            
+
+        lruallList.append(temp)
+    lrufinalList = transpose(lruallList, frameAmt)
+
+    lrufinalstr = ''
+    for lists in lrufinalList:
+        lrufinalstr += '<tr>'
+        for attr in lists:
+            if 'red' in attr:
+                lrufinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+            else:
+                lrufinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+        lrufinalstr+='</tr>\n'
+    lrufault = miss
+    lruhit = hit
+    lruratio = 100.0*hit/(len(sequenceList))
+
         
-    print(f"---LRU---\nHit: {hit}, Miss: {miss}")
+    #print(f"---LRU---\nHit: {hit}, Miss: {miss}")
 
 
 def opt(sequence, frameAmt):
@@ -75,21 +159,43 @@ def index(request):
         form = EntryForm(request.POST)
         sequenceString = form.cleaned_data["seq"]
         frameAmtString = form.cleaned_data["frames"]
-        print("from forms", sequenceString, frameAmtString)
+        #print("from forms", sequenceString, frameAmtString)
     return render(request, "replacement/index.html",
     {
         "form": EntryForm()
     })
 
 def result(request):
+    global finalList, finalstr,fifofault, fifohit, fiforatio
+    global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
     if request.method == "POST":
         form = EntryForm(request.POST)
         if form.is_valid():
             sequenceString = form.cleaned_data["seq"]
             frameAmtString = form.cleaned_data["frames"] 
             main(sequenceString, frameAmtString)
+        #print(finalList)
+        """
+        for s in finalList:
+            print(s)
+        """
+        print(fifofinalList)
         return render(request, "replacement/result.html",{
             "form": EntryForm(),
-            "sequence": sequenceString,
+            "sequence": sequenceString.split(),
+            "frameAmount": frameAmtString,
+            "fifofinalList": fifofinalList,
+            "fifofinalstr": fifofinalstr,
+            "fifomdstring": markdown2.markdown(fifofinalstr),
+            "fifofault": fifofault,
+            "fifohit": fifohit,
+            "fiforatio": fiforatio,
+            "length": len(sequenceString.split()),
+            "lrufinalList": lrufinalList,
+            "lrufinalstr": lrufinalstr,
+            "lrumdstring": markdown2.markdown(lrufinalstr),
+            "lrufault": lrufault,
+            "lruhit": lruhit,
+            "lruratio": lruratio,
         })
     return HttpResponse("resultpage")

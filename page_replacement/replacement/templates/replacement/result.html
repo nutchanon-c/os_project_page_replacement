@@ -21,8 +21,59 @@
     </div>
 
     <div style="text-align: center;">
-        <h2>Result Block</h2>
-        <h3>Sequence: {{sequence}}</h3>
+        <h1>Results</h1>
+        <h1>Sequence: {% for s in sequence %} {{s}} {%endfor%}</h1>
+        <h1>Number of frames: {{frameAmount}}</h1>
+    </div>
+
+    
+    <h1 style="text-align: center;">Method 1: First In First Out (FIFO)</h1>
+    <h2 style="text-align: center;">{% for s in sequence %} <span style="margin: 5px;color: green;">{{s}}</span> {% endfor %}</h2>    
+    <table style="margin: auto;font-size: 1.5em;font-weight: bolder;">
+            {%comment%}
+            {{ finalstr }}
+            {%endcomment%}
+
+            {%comment%}
+            {% for list in finalList %}
+            <tr>
+            {% for attr in list %}
+            <td style="padding: 7px;">{{ attr }}</td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+            {%endcomment%}
+
+
+            <div style="text-align: center;">
+                {{ fifomdstring | safe }}
+            </div>        
+     </table>
+     <div style="text-align: center;">
+        <h4>Number of References: {{length}}</h4>
+        <h4>Number of Hits: {{fifohit}}</h4>
+        <h4>Page Faults: {{fifofault}}</h4>
+        <h4>Hit Ratio: {{fiforatio}}%</h4>
+    </div>
+
+
+
+
+
+
+    <h1 style="text-align: center;">Method 2: Least Recently Used (LRU)</h1>
+    <h2 style="text-align: center;">{% for s in sequence %} <span style="margin: 5px;color: green;">{{s}}</span> {% endfor %}</h2>    
+    <table style="margin: auto;font-size: 1.5em;font-weight: bolder;">
+            
+            <div style="text-align: center;">
+                {{ lrumdstring | safe }}
+            </div>        
+     </table>
+     <div style="text-align: center;">
+        <h4>Number of References: {{length}}</h4>
+        <h4>Number of Hits: {{lruhit}}</h4>
+        <h4>Page Faults: {{lrufault}}</h4>
+        <h4>Hit Ratio: {{lruratio}}%</h4>
     </div>
     
 </body>
