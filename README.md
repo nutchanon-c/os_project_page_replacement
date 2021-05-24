@@ -21,3 +21,6 @@ You can install both using <code>pip install django</code> and <code>pip install
 To run the project, simply open the directory and type the following command in the terminal<br>
 
 <code>python manage.py runserver</code>
+
+Then go to the local url that the console shows.
+The default path is <code>127.0.0.1:8000</code>
