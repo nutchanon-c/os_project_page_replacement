@@ -37,10 +37,11 @@ def fifo(sequence, frameAmt):
     miss = 0
     replaceIndex = 0
     temp = []
+    #fifo algorithm
     for s in sequenceList:     
         if s in frames:
             hit += 1
-            if 'red' in temp[replaceIndex - 1]:
+            if 'red' in temp[replaceIndex - 1]: #removing old "red" value
                 temp[replaceIndex - 1] = temp[replaceIndex - 1][3:]
         else:
             miss += 1
@@ -49,20 +50,21 @@ def fifo(sequence, frameAmt):
                 
             else:
                 frames.append(s)
-            temp = frames[:]
-            temp[replaceIndex] = 'red'+temp[replaceIndex]
+            temp = frames[:] #copying the list by value
+            temp[replaceIndex] = 'red'+temp[replaceIndex] #adding "red" to the new value that is replaced
             print(temp)
             replaceIndex = (replaceIndex + 1) % frameAmt
             
         
         fifoallList.append(temp[:])
 
-    fifofinalList = transpose(fifoallList, frameAmt)
-    print(fifofinalList)
+    fifofinalList = transpose(fifoallList, frameAmt) #transpose for display on the screen
+    #print(fifofinalList)
 
 
     fifofinalstr = ''
     
+    #adding html tags
     for lists in fifofinalList:
         fifofinalstr += '<tr>'
         for attr in lists:
@@ -90,6 +92,7 @@ def lru(sequence, frameAmt):
     miss = 0
     temp = []
 
+    #lru algorithm
     for s in sequenceList:
         if s not in frames:
             miss += 1
@@ -120,6 +123,7 @@ def lru(sequence, frameAmt):
         lruallList.append(temp)
     lrufinalList = transpose(lruallList, frameAmt)
 
+    #adding html tags
     lrufinalstr = ''
     for lists in lrufinalList:
         lrufinalstr += '<tr>'
@@ -186,14 +190,14 @@ def result(request):
             "frameAmount": frameAmtString,
             "fifofinalList": fifofinalList,
             "fifofinalstr": fifofinalstr,
-            "fifomdstring": markdown2.markdown(fifofinalstr),
+            "fifomdstring": markdown2.markdown(fifofinalstr), #markdown for html
             "fifofault": fifofault,
             "fifohit": fifohit,
             "fiforatio": fiforatio,
             "length": len(sequenceString.split()),
             "lrufinalList": lrufinalList,
             "lrufinalstr": lrufinalstr,
-            "lrumdstring": markdown2.markdown(lrufinalstr),
+            "lrumdstring": markdown2.markdown(lrufinalstr), #markdown for html
             "lrufault": lrufault,
             "lruhit": lruhit,
             "lruratio": lruratio,
