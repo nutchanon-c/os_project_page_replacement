@@ -88,4 +88,8 @@ def result(request):
             sequenceString = form.cleaned_data["seq"]
             frameAmtString = form.cleaned_data["frames"] 
             main(sequenceString, frameAmtString)
+        return render(request, "replacement/result.html",{
+            "form": EntryForm(),
+            "sequence": sequenceString,
+        })
     return HttpResponse("resultpage")
