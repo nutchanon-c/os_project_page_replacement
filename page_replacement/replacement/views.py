@@ -110,7 +110,7 @@ def __optimal():
         optfinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                optfinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
+                optfinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
             else:
                 optfinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         optfinalstr+='</tr>\n'
@@ -172,7 +172,7 @@ def fifo(sequence, frameAmt):
         fifofinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                fifofinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
+                fifofinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
             else:
                 fifofinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         fifofinalstr+='</tr>\n'
@@ -233,7 +233,7 @@ def lru(sequence, frameAmt):
         lrufinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                lrufinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
+                lrufinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
             else:
                 lrufinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         lrufinalstr+='</tr>\n'
