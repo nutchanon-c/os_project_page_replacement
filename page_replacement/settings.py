@@ -25,7 +25,7 @@ SECRET_KEY = '*3ad!&e28ejmgn7q@ew6e48fg2eb30(@!b&y78-jyfx9jcwji_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://testing-github-page-replace.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['testing-github-page-replace.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
