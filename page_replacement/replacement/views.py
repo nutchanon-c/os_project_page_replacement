@@ -128,7 +128,7 @@ def __optimal():
         # else:
         #     print("\n%d -> No Page Fault" % (a[i]))
             
-    print("\n Total page faults : %d." % (page_faults))
+    #print("\n Total page faults : %d." % (page_faults))
 
 def fifo(sequence, frameAmt):
     global fifofinalList, fifofinalstr, fifofault, fifohit, fiforatio
@@ -179,6 +179,7 @@ def fifo(sequence, frameAmt):
     fifofault = miss
     fifohit = hit
     fiforatio = 100.0*hit/(len(sequenceList))
+    #print(markdown2.markdown(fifofinalstr))
     
     
         
@@ -301,7 +302,7 @@ def result(request):
         sequenceString = request.POST["seq"]
         frameAmtString = request.POST["fsize"]
         main(sequenceString, frameAmtString)
-        print(sequenceString, frameAmtString)
+        #print(sequenceString, frameAmtString)
         """
         for s in finalList:
             print(s)
