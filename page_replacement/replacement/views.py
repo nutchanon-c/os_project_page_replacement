@@ -1,3 +1,4 @@
+from os import replace
 import re
 from typing import Sequence, final
 from django.shortcuts import render
@@ -101,7 +102,7 @@ def __optimal():
     optfinalList = transpose(optallList, m)
 
     #optfinalList = [list(map(str, i)) for i in optfinalList]
-    print(optfinalList)
+    #print(optfinalList)
 
 
     optfinalstr = ''
@@ -109,9 +110,9 @@ def __optimal():
         optfinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                optfinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+                optfinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
             else:
-                optfinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+                optfinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         optfinalstr+='</tr>\n'
     optfault = page_faults
     opthit = n - page_faults
@@ -144,6 +145,7 @@ def fifo(sequence, frameAmt):
             hit += 1
             if 'red' in temp[replaceIndex - 1]: #removing old "red" value
                 temp[replaceIndex - 1] = temp[replaceIndex - 1][3:]
+
         else:
             miss += 1
             if len(frames) == frameAmt:
@@ -170,9 +172,9 @@ def fifo(sequence, frameAmt):
         fifofinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                fifofinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+                fifofinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
             else:
-                fifofinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+                fifofinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         fifofinalstr+='</tr>\n'
     fifofault = miss
     fifohit = hit
@@ -230,9 +232,9 @@ def lru(sequence, frameAmt):
         lrufinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                lrufinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+                lrufinalstr += '<td style="padding: 13px;color:#f44336;">'+attr[3:]+'</td>'
             else:
-                lrufinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+                lrufinalstr += '<td style="padding: 13px;">'+attr+'</td>'
         lrufinalstr+='</tr>\n'
     lrufault = miss
     lruhit = hit
@@ -265,7 +267,7 @@ def main(sequenceString, frameAmtString):
 
 class EntryForm(forms.Form):
     seq = forms.CharField(label=mark_safe("Sequence"))
-    frames = forms.CharField(label=mark_safe("<br/><br/>Frame Size"))
+    frames = forms.CharField(label=mark_safe("Frame Size"))
     #submit = forms.CharField(label="Submit")
 
 
@@ -275,6 +277,7 @@ class EntryForm(forms.Form):
 def index(request):
     if request.method == "POST":
         form = EntryForm(request.POST)
+        
         sequenceString = form.cleaned_data["seq"]
         frameAmtString = form.cleaned_data["frames"]
         #print("from forms", sequenceString, frameAmtString)
@@ -284,16 +287,23 @@ def index(request):
     })
 
 def result(request):
-    global finalList, finalstr,fifofault, fifohit, fiforatio
+    global fifofinalList, fifofinalstr,fifofault, fifohit, fiforatio
     global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
     global optfinalList, optfinalstr, optfault, opthit, optratio
     if request.method == "POST":
-        form = EntryForm(request.POST)
-        if form.is_valid():
-            sequenceString = form.cleaned_data["seq"]
-            frameAmtString = form.cleaned_data["frames"] 
-            main(sequenceString, frameAmtString)
+        
+        # form = EntryForm(request.POST)
+        # #val = request.POST['sTest'] 
+        # #print(val)
+        # if form.is_valid():
+        #     sequenceString = form.cleaned_data["seq"]
+        #     frameAmtString = form.cleaned_data["frames"] 
+        #     main(sequenceString, frameAmtString)
         #print(finalList)
+        sequenceString = request.POST["seq"]
+        frameAmtString = request.POST["fsize"]
+        main(sequenceString, frameAmtString)
+        print(sequenceString, frameAmtString)
         """
         for s in finalList:
             print(s)
