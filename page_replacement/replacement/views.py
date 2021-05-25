@@ -1,3 +1,5 @@
+# LRU Code Reference: https://www.geeksforgeeks.org/program-for-least-recently-used-lru-page-replacement-algorithm/
+# OPT Code Reference: https://gist.github.com/alecgorge/22e2baf4585cfa4e447fbf7bc343ca7c
 from os import replace
 import re
 from typing import Sequence, final
