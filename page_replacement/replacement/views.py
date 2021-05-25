@@ -1,5 +1,3 @@
-# LRU Code Reference: https://www.geeksforgeeks.org/program-for-least-recently-used-lru-page-replacement-algorithm/
-# OPT Code Reference: https://gist.github.com/alecgorge/22e2baf4585cfa4e447fbf7bc343ca7c
 from os import replace
 import re
 from typing import Sequence, final
@@ -112,9 +110,9 @@ def __optimal():
         optfinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                optfinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
+                optfinalstr += '<td style="padding: 20px;background-color:#f44336;text-align: center;">'+attr[3:]+'</td>'
             else:
-                optfinalstr += '<td style="padding: 13px;">'+attr+'</td>'
+                optfinalstr += '<td style="padding: 20px;text-align: center;">'+attr+'</td>'
         optfinalstr+='</tr>\n'
     optfault = page_faults
     opthit = n - page_faults
@@ -174,9 +172,9 @@ def fifo(sequence, frameAmt):
         fifofinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                fifofinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
+                fifofinalstr += '<td style="padding: 20px;background-color:#f44336;text-align: center;">'+attr[3:]+'</td>'
             else:
-                fifofinalstr += '<td style="padding: 13px;">'+attr+'</td>'
+                fifofinalstr += '<td style="padding: 20px;text-align: center;">'+attr+'</td>'
         fifofinalstr+='</tr>\n'
     fifofault = miss
     fifohit = hit
@@ -235,9 +233,9 @@ def lru(sequence, frameAmt):
         lrufinalstr += '<tr>'
         for attr in lists:
             if 'red' in attr:
-                lrufinalstr += '<td style="padding: 13px;background-color:#f44336;">'+attr[3:]+'</td>'
+                lrufinalstr += '<td style="padding: 20px;background-color:#f44336; text-align: center;">'+attr[3:]+'</td>'
             else:
-                lrufinalstr += '<td style="padding: 13px;">'+attr+'</td>'
+                lrufinalstr += '<td style="padding: 20px; text-align: center;">'+attr+'</td>'
         lrufinalstr+='</tr>\n'
     lrufault = miss
     lruhit = hit
