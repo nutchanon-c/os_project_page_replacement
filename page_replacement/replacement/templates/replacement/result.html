@@ -55,7 +55,7 @@
         <h4>Number of References: {{length}}</h4>
         <h4>Number of Hits: {{fifohit}}</h4>
         <h4>Page Faults: {{fifofault}}</h4>
-        <h4>Hit Ratio: {{fiforatio}}%</h4>
+        <h4>Hit Rate: {{fiforatio}}%</h4>
     </div>
 
 
@@ -77,14 +77,31 @@
         <h4>Number of References: {{length}}</h4>
         <h4>Number of Hits: {{lruhit}}</h4>
         <h4>Page Faults: {{lrufault}}</h4>
-        <h4>Hit Ratio: {{lruratio}}%</h4>
+        <h4>Hit Rate: {{lruratio}}%</h4>
     </div>
+
+
 
     <hr>
     <h1 style="text-align: center;">Method 3: Optimal Page Replacement (OPT)</h1>
     <h3 style="text-align: center;"><code style="color: green;">Green is the sequence</code></h3>
     <h3 style="text-align: center;"><code style="color: red;">Red is the replaced value</code></h3>
     <h2 style="text-align: center;">{% for s in sequence %} <span style="margin: 5px;color: green;">{{s}}</span> {% endfor %}</h2>    
-    
+
+
+
+    <table style="margin: auto;font-size: 1.5em;font-weight: bolder;">
+            
+        <div style="text-align: center;">
+            {{ optmdstring | safe }}
+        </div>        
+ </table>
+ <div style="text-align: center;">
+    <h4>Number of References: {{length}}</h4>
+    <h4>Number of Hits: {{opthit}}</h4>
+    <h4>Page Faults: {{optfault}}</h4>
+    <h4>Hit Rate: {{optratio}}%</h4>
+</div>
+    <hr>
 </body>
 </html>

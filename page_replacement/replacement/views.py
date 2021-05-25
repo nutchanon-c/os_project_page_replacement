@@ -9,10 +9,12 @@ from django.http import HttpResponseRedirect
 import markdown2
 import secrets
 from django.utils.safestring import mark_safe
+from django.db import models
 
 global fifofinalList, fifofinalstr, fifofault, fifohit, fiforatio
 global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
-
+global a, n, m
+global optfinalList, optfinalstr, optfault, opthit, optratio
 
 
 def transpose(l1, num):
@@ -27,6 +29,105 @@ def transpose(l1, num):
     #print(l2)
     return l2
 
+def __optimal():
+    global optfinalList, optfinalstr, optfault, opthit, optratio
+    global a,n,m
+    x = 0
+    page_faults = 0
+    page = []
+    FREE = -1
+    optallList = []
+    for i in range(m):
+        page.append(FREE)
+
+    for i in range(n):        
+        flag = 0
+        for j in range(m):
+            if(page[j] == a[i]):
+                flag = 1 #hit
+                temp = page[:]
+                break
+            
+        if flag == 0:
+            # look for an empty one
+            faulted = False
+            new_slot = FREE
+            for q in range(m):
+                if page[q] == FREE: #has empty
+                    faulted = True
+                    new_slot = q
+            
+            if not faulted:
+                # find next use farthest in future
+                max_future = 0
+                max_future_q = FREE
+                for q in range(m):
+                    if page[q] != FREE:
+                        found = False
+                        for ii in range(i, n):
+                            if a[ii] == page[q]:
+                                found = True
+                                if ii > max_future:
+                                    # print "\n\tFound what will be used last: a[%d] = %d" % (ii, a[ii]),
+                                    max_future = ii #ii is index in index in sequence
+                                    max_future_q = q #q is index in frames (page)
+
+                                break
+                        
+                        if not found:
+                            # print "\n\t%d isn't used again." % (page[q]),
+                            max_future_q = q
+                            break
+
+                faulted = True
+                new_slot = max_future_q
+            
+            page_faults += 1
+            #print(page)
+            page[new_slot] = a[i]
+        
+            
+            temp = page[:]
+            temp[temp.index(a[i])] = 'red' + str(a[i])
+        temp = list(reversed(temp))
+        temp = [str(n) for n in temp]
+
+        for jj in range(len(temp)):
+            if temp[jj] == '-1':
+                temp[jj] = '-'
+
+        optallList.append(temp)
+        #print(optallList)
+    optfinalList = transpose(optallList, m)
+
+    #optfinalList = [list(map(str, i)) for i in optfinalList]
+    print(optfinalList)
+
+
+    optfinalstr = ''
+    for lists in optfinalList:
+        optfinalstr += '<tr>'
+        for attr in lists:
+            if 'red' in attr:
+                optfinalstr += '<td style="padding: 7px;color:red;">'+attr[3:]+'</td>'
+            else:
+                optfinalstr += '<td style="padding: 7px;">'+attr+'</td>'
+        optfinalstr+='</tr>\n'
+    optfault = page_faults
+    opthit = n - page_faults
+    optratio = 100.0*opthit/n
+        #print(temp)
+
+           # print("\n%d ->" % (a[i]))
+            # for j in range(m):
+            #     if page[j] != FREE:
+            #         print(page[j])
+            #     else:
+            #         print("-")
+        # else:
+        #     print("\n%d -> No Page Fault" % (a[i]))
+            
+    print("\n Total page faults : %d." % (page_faults))
 
 def fifo(sequence, frameAmt):
     global fifofinalList, fifofinalstr, fifofault, fifohit, fiforatio
@@ -96,7 +197,7 @@ def lru(sequence, frameAmt):
     for s in sequenceList:
         if s not in frames:
             miss += 1
-            temp1 = frames[:]
+            #temp1 = frames[:]
             if len(frames) == frameAmt:
                 frames.remove(frames[0])
                 frames.append(s)
@@ -145,17 +246,30 @@ def opt(sequence, frameAmt):
     return
 
 def main(sequenceString, frameAmtString):
+    global a, n, m
     sequenceList = sequenceString.split()
     frameAmount = int(frameAmtString)
     fifo(sequenceList, frameAmount)
     lru(sequenceList, frameAmount)
-    opt(sequenceList, frameAmount)
+    #opt(sequenceList, frameAmount)
+
+    #for optimal
+    #a = [int(n) for n in sequenceString.split()]
+    a = sequenceString.split()
+    m = frameAmount
+    n = len(a)
+    __optimal()
+
+
 
 
 class EntryForm(forms.Form):
     seq = forms.CharField(label=mark_safe("Sequence"))
-    frames = forms.CharField(label=mark_safe("<br/><br/>Number of Frames"))
+    frames = forms.CharField(label=mark_safe("<br/><br/>Frame Size"))
     #submit = forms.CharField(label="Submit")
+
+
+
 
 # Create your views here.
 def index(request):
@@ -172,6 +286,7 @@ def index(request):
 def result(request):
     global finalList, finalstr,fifofault, fifohit, fiforatio
     global lrufinalList, lrufinalstr, lrufault, lruhit, lruratio
+    global optfinalList, optfinalstr, optfault, opthit, optratio
     if request.method == "POST":
         form = EntryForm(request.POST)
         if form.is_valid():
@@ -201,5 +316,11 @@ def result(request):
             "lrufault": lrufault,
             "lruhit": lruhit,
             "lruratio": round(lruratio,2),
+            "optfinalList": optfinalList,
+            "optfinalstr": optfinalstr,
+            "optfault": optfault,
+            "opthit": opthit,
+            "optratio": round(optratio,2),
+            "optmdstring": markdown2.markdown(optfinalstr), #markdown for html
         })
     return HttpResponse("resultpage")
