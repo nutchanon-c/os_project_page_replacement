@@ -244,8 +244,6 @@ def lru(sequence, frameAmt):
     #print(f"---LRU---\nHit: {hit}, Miss: {miss}")
 
 
-def opt(sequence, frameAmt):
-    return
 
 def main(sequenceString, frameAmtString):
     global a, n, m
