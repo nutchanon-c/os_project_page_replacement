@@ -1,1 +1,1 @@
-web: gunicorn page-replacement.wsgi
+web: gunicorn page-replacement.wsgi --log-file -
