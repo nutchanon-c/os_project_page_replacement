@@ -15,7 +15,7 @@
             <br>
             <b>First In First Out (FIFO)</b>
             <br>
-            &nbsp;&nbsp;&nbsp;For the FIFO algorithm, we simply remove the pages in the frame, in order. Think of it as a queue. 
+            For the FIFO algorithm, we simply remove the pages in the frame, in order. Think of it as a queue. 
             For example, when a new person comes in to the queue, they will go at the back of the queue. 
             The algorithm works in a similar way where if the frame is full and a new page is needed, it will replace the new page with the "oldest" page which is the top of the queue.
             Then, after replacing, the next page in the frame will be considered as the "oldest" page in the queue.
@@ -23,7 +23,7 @@
             <hr>
             <b>Least Recently Used (LRU)</b>
             <br>
-            &nbsp;&nbsp;&nbsp;For the Least Recently Used algorithm, it is quite similar to the FIFO in terms of how it works. However, this time, when a page is referenced and is in the frame,
+            For the Least Recently Used algorithm, it is quite similar to the FIFO in terms of how it works. However, this time, when a page is referenced and is in the frame,
             the page is removed from its current position, then it is essentially enqueued at the end of the frame. If a new page is referenced and is not in the frame, we simply remove
             the page at the end of the frame since it is the least recently used page. We know that the page is the least recently used page because the referenced page is always being
             enqueue again, regardless of its presence in the frame.
@@ -31,7 +31,7 @@
             <hr>
             <b>Optimal Page Replacement (OPT)</b>
             <br>
-            &nbsp;&nbsp;&nbsp;In this algorithm, we are looking into the future or "predicting." If a page fault occurs, we simply look at the sequence of page references to see which page in the frame will
+            In this algorithm, we are looking into the future or "predicting." If a page fault occurs, we simply look at the sequence of page references to see which page in the frame will
             not be used for the longest time. Despite the fact that this algorithm has the lowest page-fault rate of all algorithms, it is not practical since it is hard to predict the future.
             <br>
             <hr>
