@@ -5,7 +5,7 @@ This is a project under the course CSS225 Operating System of Sirindhorn Interna
 ## About this project
 Throughout the course, we studied on how operating systems work and manage stuff such as processes, memory management, virtual memory management, file systems, etc.
 The final project of this course is to choose a topic that we learned in class and try to visualize it. We chose the page replacement algorithm under the Virtual Memory Management.
-### This project is deployed [here on Heroku](http://os-page-replacement.herokuapp.com/)
+### This project is deployed [here on Heroku](http://os-page-replacement.herokuapp.com/){target="_blank"}
 ## Installing the Project
 This project is created using Django web application.
 To install and run this project, you would need to install the following:<br>
