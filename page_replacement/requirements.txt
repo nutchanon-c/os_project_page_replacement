@@ -1,2 +1,2 @@
-django
-markdown2
+Django==4.1.4
+markdown2==2.4.6
